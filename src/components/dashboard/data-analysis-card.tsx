@@ -50,7 +50,7 @@ export function DataAnalysisCard() {
         setResult(response.data);
       }
     } catch (e) {
-      setError("Failed to read file.");
+      setError("Failed to process file.");
       console.error(e);
     } finally {
       setIsLoading(false);
