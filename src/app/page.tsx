@@ -12,6 +12,8 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import { communities } from '@/lib/data';
+import { ApiEndpointsCard } from '@/components/dashboard/api-endpoints-card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function Home() {
   const [selectedCommunityId, setSelectedCommunityId] = React.useState(communities[0].id);
@@ -22,14 +24,17 @@ export default function Home() {
       <main className="flex-1 container mx-auto p-4 md:p-8">
         <ResizablePanelGroup direction="horizontal" className="min-h-[800px]">
           <ResizablePanel defaultSize={33} minSize={25}>
-            <div className="flex h-full flex-col gap-8 pr-4">
-              <ScenarioBuilderCard
-                selectedCommunityId={selectedCommunityId}
-                onCommunityChange={setSelectedCommunityId}
-              />
-              <AffordabilityCard />
-              <DataAnalysisCard />
-            </div>
+            <ScrollArea className="h-full pr-4">
+              <div className="flex h-full flex-col gap-8">
+                <ScenarioBuilderCard
+                  selectedCommunityId={selectedCommunityId}
+                  onCommunityChange={setSelectedCommunityId}
+                />
+                <AffordabilityCard />
+                <DataAnalysisCard />
+                <ApiEndpointsCard communityId={selectedCommunityId} />
+              </div>
+            </ScrollArea>
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={67} minSize={40}>
