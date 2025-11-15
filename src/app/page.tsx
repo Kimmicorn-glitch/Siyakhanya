@@ -45,11 +45,8 @@ export default function Home() {
           </ResizablePanel>
         </ResizablePanelGroup>
       </main>
-      <footer className="py-4 text-center text-sm text-muted-foreground border-t space-x-4">
+      <footer className="py-4 text-center text-sm text-muted-foreground border-t">
         <span>© siyaKhanya</span>
-        <Link href="/faq" className="text-primary hover:underline">
-            FAQ
-        </Link>
       </footer>
     </div>
   );
