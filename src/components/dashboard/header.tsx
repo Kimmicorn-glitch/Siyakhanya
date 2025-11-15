@@ -1,5 +1,7 @@
 // siyaKhanya — kimmy@siyaKhanya
+import { Button } from "@/components/ui/button";
 import { Sun } from "lucide-react";
+import Link from "next/link";
 
 export function Header() {
   return (
@@ -11,7 +13,12 @@ export function Header() {
           </div>
           <h1 className="text-2xl font-bold text-foreground">siyaKhanya</h1>
         </div>
-        <p className="text-muted-foreground hidden md:block">Community energy forecasting & payback</p>
+        <div className="flex items-center gap-4">
+            <p className="text-muted-foreground hidden md:block">Community energy forecasting & payback</p>
+            <Button asChild variant="ghost">
+                <Link href="/faq">FAQ</Link>
+            </Button>
+        </div>
       </div>
     </header>
   );
