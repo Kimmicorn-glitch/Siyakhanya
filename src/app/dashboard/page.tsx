@@ -14,7 +14,6 @@ import {
 import { communities } from '@/lib/data';
 import { ApiEndpointsCard } from '@/components/dashboard/api-endpoints-card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import Link from 'next/link';
 
 export default function DashboardPage() {
   const [selectedCommunityId, setSelectedCommunityId] = React.useState(communities[0].id);
