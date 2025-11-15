@@ -1,49 +1,28 @@
 // siyaKhanya — kimmy@siyaKhanya
 'use client';
-import React from 'react';
-import { ConsumptionChartCard } from '@/components/dashboard/consumption-chart-card';
-import { DataAnalysisCard } from '@/components/dashboard/data-analysis-card';
+
+import { SplineSceneBasic } from '@/components/dashboard/spline-scene-basic';
 import { Header } from '@/components/dashboard/header';
-import { ScenarioBuilderCard } from '@/components/dashboard/scenario-builder-card';
-import { AffordabilityCard } from '@/components/dashboard/affordability-card';
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from '@/components/ui/resizable';
-import { communities } from '@/lib/data';
-import { ApiEndpointsCard } from '@/components/dashboard/api-endpoints-card';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 
 export default function Home() {
-  const [selectedCommunityId, setSelectedCommunityId] = React.useState(communities[0].id);
-
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
-      <main className="flex-1 container mx-auto p-4 md:p-8">
-        <ResizablePanelGroup direction="horizontal" className="min-h-[800px]">
-          <ResizablePanel defaultSize={33} minSize={25}>
-            <ScrollArea className="h-full pr-4">
-              <div className="flex h-full flex-col gap-8">
-                <ScenarioBuilderCard
-                  selectedCommunityId={selectedCommunityId}
-                  onCommunityChange={setSelectedCommunityId}
-                />
-                <AffordabilityCard />
-                <DataAnalysisCard />
-                <ApiEndpointsCard communityId={selectedCommunityId} />
-              </div>
-            </ScrollArea>
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={67} minSize={40}>
-            <div className="h-full pl-4">
-              <ConsumptionChartCard communityId={selectedCommunityId} />
+      <main className="flex-1 container mx-auto p-4 md:p-8 flex flex-col items-center justify-center text-center">
+        <div className="max-w-4xl w-full">
+            <SplineSceneBasic />
+            <div className="mt-8">
+                 <Button asChild size="lg">
+                    <Link href="/dashboard">
+                        Go to Dashboard
+                        <ArrowRight className="ml-2"/>
+                    </Link>
+                </Button>
             </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
+        </div>
       </main>
       <footer className="py-4 text-center text-sm text-muted-foreground border-t">
         <span>© siyaKhanya</span>
