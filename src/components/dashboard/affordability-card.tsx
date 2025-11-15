@@ -15,11 +15,16 @@ import { useState } from "react";
 
 export function AffordabilityCard() {
     const [result, setResult] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleAnalysis = () => {
+        setIsLoading(true);
         // This is where a real API call to an AI model would go.
-        // For now, it returns a static, insightful recommendation.
-        setResult("Based on typical income distribution and energy usage in this archetype, a tariff above ZAR 4.50/kWh significantly increases the risk of illegal connections as it exceeds the affordability threshold for over 30% of households.");
+        // For now, it returns a static, insightful recommendation after a delay.
+        setTimeout(() => {
+            setResult("Based on typical income distribution and energy usage in this archetype, a tariff above ZAR 4.50/kWh significantly increases the risk of illegal connections as it exceeds the affordability threshold for over 30% of households.");
+            setIsLoading(false);
+        }, 1500);
     }
 
   return (
@@ -31,15 +36,15 @@ export function AffordabilityCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <Button onClick={handleAnalysis}>
+        <Button onClick={handleAnalysis} disabled={isLoading}>
             <BarChart className="mr-2"/>
-            Analyze Affordability
+            {isLoading ? 'Analyzing...' : 'Analyze Affordability'}
         </Button>
 
         {result && (
-             <Alert>
-                <DollarSign className="h-4 w-4" />
-                <AlertTitle>Pricing Recommendation</AlertTitle>
+             <Alert className="border-accent">
+                <DollarSign className="h-4 w-4 text-accent" />
+                <AlertTitle className="text-accent">Pricing Recommendation</AlertTitle>
                 <AlertDescription className="mt-2">
                     {result}
                 </AlertDescription>

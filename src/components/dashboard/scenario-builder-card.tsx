@@ -22,17 +22,51 @@ import { Button } from "@/components/ui/button";
 import React, { useState, useCallback } from "react";
 import { communities } from "@/lib/data";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Zap, Loader2, AlertTriangle } from "lucide-react";
+import { Zap, Loader2, AlertTriangle, BarChart as BarChartIcon, TrendingUp } from "lucide-react";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+
+type YearlyCashflow = {
+    year: number;
+    net: number;
+};
 
 type PaybackResult = {
     npv: number;
     payback_years: number | null;
+    yearly_cashflows: YearlyCashflow[];
 };
 
 interface ScenarioBuilderCardProps {
   selectedCommunityId: string;
   onCommunityChange: (id: string) => void;
 }
+
+const chartConfig = {
+  net: {
+    label: "Net Cashflow (ZAR)",
+    color: "hsl(var(--accent))",
+  },
+} satisfies ChartConfig;
+
+const PaybackResultDisplay = ({ result }: { result: PaybackResult }) => (
+    <Alert>
+        <Zap className="h-4 w-4" />
+        <AlertTitle>Payback Calculation Results</AlertTitle>
+        <AlertDescription className="mt-2 space-y-2">
+            <div className="flex justify-between">
+                <span className="text-muted-foreground">Payback Period:</span>
+                <span className="font-semibold">
+                    {result.payback_years !== null ? `${result.payback_years.toFixed(1)} years` : 'Over 20 years'}
+                </span>
+            </div>
+            <div className="flex justify-between">
+                <span className="text-muted-foreground">Net Present Value (NPV):</span>
+                <span className="font-semibold">R {result.npv.toLocaleString('en-ZA', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+            </div>
+        </AlertDescription>
+    </Alert>
+);
 
 export function ScenarioBuilderCard({ selectedCommunityId, onCommunityChange }: ScenarioBuilderCardProps) {
   const [systemKw, setSystemKw] = useState(3);
@@ -95,23 +129,25 @@ export function ScenarioBuilderCard({ selectedCommunityId, onCommunityChange }: 
           </Select>
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="system-kw">System kW</Label>
-          <Input
-            id="system-kw"
-            type="number"
-            value={systemKw}
-            onChange={(e) => setSystemKw(parseFloat(e.target.value) || 0)}
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="battery-kwh">Battery kWh</Label>
-          <Input
-            id="battery-kwh"
-            type="number"
-            value={batteryKwh}
-            onChange={(e) => setBatteryKwh(parseFloat(e.target.value) || 0)}
-          />
+        <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="system-kw">System kWp</Label>
+              <Input
+                id="system-kw"
+                type="number"
+                value={systemKw}
+                onChange={(e) => setSystemKw(parseFloat(e.target.value) || 0)}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="battery-kwh">Battery kWh</Label>
+              <Input
+                id="battery-kwh"
+                type="number"
+                value={batteryKwh}
+                onChange={(e) => setBatteryKwh(parseFloat(e.target.value) || 0)}
+              />
+            </div>
         </div>
         <div className="grid gap-2">
           <Label htmlFor="grid-price">Grid price (ZAR/kWh)</Label>
@@ -124,15 +160,18 @@ export function ScenarioBuilderCard({ selectedCommunityId, onCommunityChange }: 
           />
         </div>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-4">
-        <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90" onClick={runPayback} disabled={isLoading}>
+      <CardFooter className="flex-col items-stretch gap-4">
+        <Button className="w-full" onClick={runPayback} disabled={isLoading}>
            {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Calculating...
             </>
           ) : (
-            'Calculate Payback'
+            <>
+                <BarChartIcon className="mr-2"/>
+                Calculate Payback
+            </>
           )}
         </Button>
         {error && (
@@ -143,22 +182,38 @@ export function ScenarioBuilderCard({ selectedCommunityId, onCommunityChange }: 
           </Alert>
         )}
         {paybackResult && (
-            <Alert>
-                <Zap className="h-4 w-4" />
-                <AlertTitle>Payback Calculation Results</AlertTitle>
-                <AlertDescription>
-                    <div className="flex justify-between mt-2">
-                        <span>Payback Period:</span>
-                        <span className="font-semibold">
-                            {paybackResult.payback_years !== null ? `${paybackResult.payback_years.toFixed(1)} years` : 'Over 20 years'}
-                        </span>
-                    </div>
-                    <div className="flex justify-between mt-1">
-                        <span>Net Present Value (NPV):</span>
-                        <span className="font-semibold">R {paybackResult.npv.toLocaleString('en-ZA', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
-                    </div>
-                </AlertDescription>
-            </Alert>
+            <div className="w-full space-y-4">
+                <PaybackResultDisplay result={paybackResult}/>
+                <Card>
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-lg flex items-center gap-2">
+                            <TrendingUp />
+                            Yearly Cashflow
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer config={chartConfig} className="w-full h-[200px]">
+                            <BarChart data={paybackResult.yearly_cashflows} accessibilityLayer>
+                                <CartesianGrid vertical={false} />
+                                <XAxis
+                                    dataKey="year"
+                                    tickLine={false}
+                                    tickMargin={10}
+                                    axisLine={false}
+                                />
+                                <YAxis
+                                    tickLine={false}
+                                    tickMargin={10}
+                                    axisLine={false}
+                                    tickFormatter={(value) => `R${value/1000}k`}
+                                />
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                                <Bar dataKey="net" fill="var(--color-net)" radius={4} />
+                            </BarChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </div>
         )}
       </CardFooter>
     </Card>

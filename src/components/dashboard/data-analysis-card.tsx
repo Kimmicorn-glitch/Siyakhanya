@@ -95,17 +95,16 @@ export function DataAnalysisCard() {
             <Info className="h-4 w-4" />
             <AlertTitle>Analysis Complete</AlertTitle>
             <AlertDescription className="space-y-2 mt-2">
-                <p className="font-semibold">Summary:</p>
-                <p>{result.summary}</p>
+                <p className="font-semibold text-foreground">{result.summary}</p>
                 {result.anomalies.length > 0 && (
-                    <>
+                    <div>
                         <p className="font-semibold pt-2">Detected Anomalies:</p>
-                        <ul className="list-disc pl-5 space-y-1 text-xs">
+                        <ul className="list-disc pl-5 space-y-1 text-xs text-muted-foreground">
                             {result.anomalies.map((anomaly, index) => (
                                 <li key={index}>{anomaly}</li>
                             ))}
                         </ul>
-                    </>
+                    </div>
                 )}
             </AlertDescription>
           </Alert>
