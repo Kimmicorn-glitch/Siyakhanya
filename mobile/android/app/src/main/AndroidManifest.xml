@@ -2,7 +2,11 @@
     <application
         android:label="siyakhanya"
         android:name="${applicationName}"
+<<<<<<< HEAD
         android:icon="@mipmap/launcher_icon">
+=======
+        android:icon="@mipmap/ic_launcher">
+>>>>>>> 5674221d5729e5abcc78f26f72c301e386d1e3d6
         <activity
             android:name=".MainActivity"
             android:exported="true"

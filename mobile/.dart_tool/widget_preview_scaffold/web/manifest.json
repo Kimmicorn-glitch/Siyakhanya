@@ -1,16 +1,11 @@
 {
-    "name": "siyakhanya",
-    "short_name": "siyakhanya",
+    "name": "widget_preview_scaffold",
+    "short_name": "widget_preview_scaffold",
     "start_url": ".",
     "display": "standalone",
-<<<<<<< HEAD
-    "background_color": "#hexcode",
-    "theme_color": "#hexcode",
-=======
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
->>>>>>> 5674221d5729e5abcc78f26f72c301e386d1e3d6
-    "description": "A new Flutter project.",
+    "description": "",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
@@ -37,8 +32,4 @@
             "purpose": "maskable"
         }
     ]
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 5674221d5729e5abcc78f26f72c301e386d1e3d6
