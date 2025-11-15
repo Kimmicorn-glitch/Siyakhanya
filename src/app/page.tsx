@@ -5,6 +5,7 @@ import { ConsumptionChartCard } from '@/components/dashboard/consumption-chart-c
 import { DataAnalysisCard } from '@/components/dashboard/data-analysis-card';
 import { Header } from '@/components/dashboard/header';
 import { ScenarioBuilderCard } from '@/components/dashboard/scenario-builder-card';
+import { AffordabilityCard } from '@/components/dashboard/affordability-card';
 import {
   ResizableHandle,
   ResizablePanel,
@@ -19,13 +20,14 @@ export default function Home() {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1 container mx-auto p-4 md:p-8">
-        <ResizablePanelGroup direction="horizontal" className="min-h-[600px]">
+        <ResizablePanelGroup direction="horizontal" className="min-h-[800px]">
           <ResizablePanel defaultSize={33} minSize={25}>
             <div className="flex h-full flex-col gap-8 pr-4">
               <ScenarioBuilderCard
                 selectedCommunityId={selectedCommunityId}
                 onCommunityChange={setSelectedCommunityId}
               />
+              <AffordabilityCard />
               <DataAnalysisCard />
             </div>
           </ResizablePanel>
