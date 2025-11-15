@@ -2,7 +2,7 @@
 the calculator that tells developers and the government where and how to safely replace illegal electricity with formal, affordable power.
 
 
-Here is the final, simplified GitHub README for your project, **Siyakhanya**, designed to be professional, highlight the dual market strategy, and score high on all criteria.
+ **Siyakhanya**, designed to be professional, highlight the dual market strategy, and score high on all criteria.
 
 -----
 
