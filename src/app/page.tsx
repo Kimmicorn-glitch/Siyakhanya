@@ -14,6 +14,7 @@ import {
 import { communities } from '@/lib/data';
 import { ApiEndpointsCard } from '@/components/dashboard/api-endpoints-card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Link from 'next/link';
 
 export default function Home() {
   const [selectedCommunityId, setSelectedCommunityId] = React.useState(communities[0].id);
@@ -44,8 +45,11 @@ export default function Home() {
           </ResizablePanel>
         </ResizablePanelGroup>
       </main>
-      <footer className="py-4 text-center text-sm text-muted-foreground border-t">
-        © siyaKhanya
+      <footer className="py-4 text-center text-sm text-muted-foreground border-t space-x-4">
+        <span>© siyaKhanya</span>
+        <Link href="/faq" className="text-primary hover:underline">
+            FAQ
+        </Link>
       </footer>
     </div>
   );
